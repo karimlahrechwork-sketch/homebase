@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0F1117;
+  --surface: #1A1D27;
+  --surface2: #22263A;
+  --border: #2E3250;
+  --accent: #6C63FF;
+  --accent2: #FF6B6B;
+  --accent3: #43E97B;
+  --text: #F0F2FF;
+  --muted: #8B8FAD;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100dvh;
+  max-width: 430px;
+  margin: 0 auto;
+}
+
+.font-display { font-family: 'Space Grotesk', sans-serif; }
+
+::-webkit-scrollbar { width: 0; }

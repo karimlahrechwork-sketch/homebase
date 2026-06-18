@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users can read/write their own profile
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth.uid == userId;
+    }
+
+    // Household members can read/write their household
+    match /households/{householdId} {
+      allow read, write: if request.auth != null &&
+        request.auth.uid in resource.data.members;
+      allow create: if request.auth != null;
+    }
+
+    // Tasks — household members only
+    match /tasks/{taskId} {
+      allow read, write: if request.auth != null &&
+        get(/databases/$(database)/documents/households/$(resource.data.householdId)).data.members.hasAny([request.auth.uid]);
+      allow create: if request.auth != null;
+    }
+
+    // Logs — household members only
+    match /logs/{logId} {
+      allow read, write: if request.auth != null &&
+        get(/databases/$(database)/documents/households/$(resource.data.householdId)).data.members.hasAny([request.auth.uid]);
+      allow create: if request.auth != null;
+    }
+  }
+}
